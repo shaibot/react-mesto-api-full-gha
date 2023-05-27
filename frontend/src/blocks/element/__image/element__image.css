@@ -1,0 +1,9 @@
+.element__image {
+  width: 100%;
+  max-width: 282px;
+  min-height: 282px;
+  max-height: 282px;
+  object-fit: cover;
+  margin: 0 auto 17px;
+  cursor: pointer;
+}

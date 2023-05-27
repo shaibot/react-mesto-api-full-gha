@@ -1,19 +1,16 @@
-[![Tests](https://github.com/nadezdapl/react-mesto-api-full-gha/actions/workflows/tests.yml/badge.svg)](https://github.com/nadezdapl/react-mesto-api-full-gha/actions/workflows/tests.yml)
+[![Статус тестов](../../actions/workflows/tests.yml/badge.svg)](../../actions/workflows/tests.yml)
 
-## Проект МЕСТО (frontend и backend)
-Проект `Mesto`, включает фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. 
-Бэкенд расположен в директории `backend/`, а фронтенд - в `frontend/`. 
+# react-mesto-api-full
+Репозиторий для приложения проекта `Mesto`, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками и пользователями. Бэкенд расположите в директории `backend/`, а фронтенд - в `frontend/`. 
+  
+Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/NadezdaPL/react-mesto-api-full-gha
+Адрес репозитория: https://github.com/...
 
 ## Ссылки на проект
 
-IP 130.193.48.152
-Frontend https://project-mesto.nomoredomains.monster
-Backend https://api.project-mesto.nomoredomains.monster
+IP-адрес x.x.x.x
 
-## Технологии проекта
+Frontend https://...
 
-Frontend: React
-
-Backend: NodeJS, Postman, Express, MongoDB
+Backend https://...

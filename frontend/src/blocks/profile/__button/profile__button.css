@@ -1,0 +1,30 @@
+.profile__button {
+  width: 100%;
+  max-width: 150px;
+  height: 50px;
+  background-image: url(../../../images/add-button-plus.svg);
+  border: 2px solid #fff;
+  align-self: start;
+  margin-top: 37px;
+  cursor: pointer;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.profile__button:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width: 719px) {
+  .profile__button {
+    max-width: calc(100vw - 30px * 2);
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile__button {
+    max-width: 282px;
+  }
+}

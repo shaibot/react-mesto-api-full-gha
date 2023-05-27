@@ -1,70 +1,77 @@
-import React, { useEffect } from "react";
+import { useState } from "react";
+import RegistrationPage from "./RegistrationPage";
+import Header from "./Header";
 import { Link } from "react-router-dom";
-import useForm from "../hooks/useForm";
 
-function Register({ handleRegister }) {
-  const { values, handleChange, reset } = useForm();
+function Register({handleRegisterSubmit}) {
+  const [isValue, setIsValue] = useState({
+    email: '',
+    password: ''
+  })
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleRegister(values);
+  const handleChange = (evt) => {
+
+    const { name, value } = evt.target;
+
+    setIsValue({
+
+      ...isValue,
+
+      [name]: value
+
+    });
+
   }
 
-  useEffect(() => {
-    reset();
-  }, [reset]);
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const { email, password } = isValue
+    handleRegisterSubmit(email, password)  
+  }
 
   return (
-    <section className="auth">
-      <h2 className="auth__title">Регистрация</h2>
-      <form className="auth__form" onSubmit={handleSubmit} id="auth-form">
-        <div className="auth__fieldset">
-          <input
-            className="auth__input auth__input_type_email"
-            name="email"
-            type="email"
-            required
-            id="email"
-            placeholder="Email"
-            onChange={handleChange}
-            value={values.email || ""}
-            autoComplete="on"
-          />
-          <span
-            id="email-error"
-            className="popup__error popup__error_visible"
-          ></span>
-        </div>
-        <div className="auth__fieldset">
-          <input
-            className="auth__input auth__input_type_password"
-            name="password"
-            type="password"
-            required
-            id="password"
-            placeholder="Пароль"
-            onChange={handleChange}
-            value={values.password || ""}
-            autoComplete="on"
-          />
-          <span
-            id="password-error"
-            className="popup__error popup__error_visible"
-          ></span>
-        </div>
-      </form>
-      <button type="submit" className="auth__button" form="auth-form">
-        Зарегистрироваться
-      </button>
-      <div className="auth__box">
-        <p className="auth__box_title">
-          Уже зарегистрированы?
-          <Link to="/sign-in" className="auth__box_link">
-            &nbsp;Войти
-          </Link>
-        </p>
-      </div>
-    </section>
+    <>
+      <Header>
+        <Link to="/sign-in" className="header__link">Войти
+        </Link>
+      </Header>
+      <RegistrationPage
+        name="register"
+        title="Регистрация"
+        buttonText="Зарегистрироваться"
+        onSubmit={handleSubmit}
+      >
+        <input
+          id="input-register-email"
+          className="auth__input auth__input_name"
+          name="email"
+          type="email"
+          placeholder="Email"
+          minLength={2}
+          maxLength={40}
+          required
+          value={isValue.email}
+          onChange={handleChange}
+        />
+
+        <span id="input-register-email-error" className="popup__error" />
+        <input
+          id="input-register-password"
+          name="password"
+          type="password"
+          className="auth__input auth__input_password"
+          placeholder="Пароль"
+          minLength={2}
+          maxLength={200}
+          required
+          value={isValue.password}
+          onChange={handleChange}
+        />
+        <span id="input-register-password-error" className="popup__error" />
+      </RegistrationPage>
+      <Link to="/sign-in" className="auth__link">Уже зарегистрированы? Войти</Link>
+    </>
+
   );
 }
 

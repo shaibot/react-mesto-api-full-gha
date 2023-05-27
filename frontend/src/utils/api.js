@@ -1,118 +1,117 @@
-import { BASE_URL } from "./auth";
-
 class Api {
-  constructor(options) {
-    this._options = options;
-    this._baseUrl = this._options.baseUrl;
-    this._headers = this._options.headers;
+  constructor({ baseUrl, headers }) {
+    this._url = baseUrl
+    this._headers = headers
   }
-  
-  _checkResponse(response) {
-    if (response.ok) {
-      return response.json();
+  _addResult (res) {
+    if (res.ok) {
+      return res.json()
     }
-    return Promise.reject(new Error(`Error: ${response.status}: ${response.statusText}`));
+    return Promise.reject(`Ошибка: ${res.status}`)
   }
-  
-  _request(url, options) {
-    return fetch(url, options).then(this._checkResponse)
+
+  // Получение карточек
+  getInitialCards () {
+    return fetch(`${this._url}/cards`, {
+      method: 'GET',
+      headers: this._headers,
+    }).then((res) => this._addResult(res))
   }
-  
-  getInitialCards(jwt) {
-    return this._request(`${this._baseUrl}/cards`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      }
-    })
-  }
-  
-  addInfo(data, jwt) {
-    return this._request(`${this._baseUrl}/users/me`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-      method: "PATCH",
+
+  // Добавить новую карточку
+  addNewCard ({ name, link }) {
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+
+      headers: this._headers,
+
       body: JSON.stringify({
-        name: `${data.name}`,
-        about: `${data.about}`,
+        name,
+        link,
       }),
-    })
+    }).then((res) => this._addResult(res))
   }
-  
-  createCard(data, jwt) {
-    return this._request(`${this._baseUrl}/cards`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-      method: "POST",
+
+  // Удалить карточку
+  deleteCard (cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._addResult(res))
+  }
+
+  // Лайки
+  addLike (id) {
+    return fetch(`${this._url}/cards/${id}/likes/`, {
+      method: 'PUT',
+      headers: this._headers,
+    }).then((res) => this._addResult(res))
+  }
+
+  // Удалить лайки
+  deleteLike (id) {
+    return fetch(`${this._url}/cards/${id}/likes/`, {
+      method: 'DELETE',
+      headers: this._headers,
+    }).then((res) => this._addResult(res))
+  }
+
+  // Получeние данных юзера
+  getUserInfo () {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      headers: this._headers,
+    }).then((res) => this._addResult(res))
+  }
+
+  // Редакт информации юзера
+  editUserInfo ({ name, about }) {
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
       body: JSON.stringify({
-        name: data.title,
-        link: data.link,
+        name,
+        about,
       }),
-    })
+    }).then((res) => this._addResult(res))
   }
-  
-  changeLikeCardStatus(id, isLiked, jwt) {
+
+  // Редакт аватара
+  editUserAvatar (url) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: url,
+      }),
+    }).then((res) => this._addResult(res))
+  }
+
+  changeLikeCardStatus (id, isLiked) {
     if (isLiked) {
-      return this._request(`${this._baseUrl}/cards/${id}/likes`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${jwt}`,
-        },
+      return fetch(`${this._url}/cards/${id}/likes`, {
+        headers: this._headers,
         method: "PUT",
-      });
+      })
+        .then((res) => this._addResult(res))
     } else {
-      return this._request(`${this._baseUrl}/cards/${id}/likes`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${jwt}`,
-        },
+      return fetch(`${this._url}/cards/${id}/likes`, {
+        headers: this._headers,
         method: "DELETE",
       })
+        .then((res) => this._addResult(res))
     }
   }
-  
-  deleteCard(id, jwt) {
-    return this._request(`${this._baseUrl}/cards/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-      method: "DELETE",
-    })
-  }
-  
-  addAvatar(data, jwt) {
-    return this._request(`${this._baseUrl}/users/me/avatar`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-      method: "PATCH",
-      body: JSON.stringify({
-        avatar: data.avatar,
-      }),
-    })
-  }
 
-  getInfo(jwt) {
-    return this._request(`${this._baseUrl}/users/me`, {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-    })
-  }
 
 }
 
-export const api = new Api({
-  baseUrl: BASE_URL,
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
   headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-  },
-});
+    authorization: '828326d9-3e7a-4e87-bb3e-57d75ba5d596',
+    'Content-Type': 'application/json',
+  }
+})
+
+export default api;
