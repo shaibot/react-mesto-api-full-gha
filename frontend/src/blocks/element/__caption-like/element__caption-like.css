@@ -1,0 +1,5 @@
+.element__caption-like {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
