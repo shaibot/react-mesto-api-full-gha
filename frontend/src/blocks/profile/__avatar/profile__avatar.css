@@ -2,20 +2,12 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  z-index: 0;
   object-fit: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
-
-.profile__avatar:hover {
-  z-index: -1;
-  opacity: 0.25;
-  transition: opacity 0.35s ease-in-out;
-}
-
-@media screen and (max-width: 719px) {
+          
+@media screen and (max-width: 775px) {
   .profile__avatar {
+    align-self: center;
     margin-right: 0;
   }
 }
