@@ -35,4 +35,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
