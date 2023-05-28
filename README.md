@@ -9,3 +9,11 @@
 ## Ссылки на проект
 
 IP-адрес 51.250.104.105
+Frontend https://pr15.nomoredomains.rocks
+Backend https://api.pr15.nomoredomains.rocks/users/me
+
+## Технологии проекта
+
+Frontend: React
+
+Backend: NodeJS, Postman, Express, MongoDB
