@@ -1,7 +1,5 @@
-const { DocumentNotFoundError } = require('mongoose').Error;
-const BadRequest = require('../Error/BadRequest');
 const Forbidden = require('../Error/Forbidden');
-const NotFoundError = require('../Error/NotFoundError');
+const NotFound = require('../Error/NotFound');
 const Card = require('../models/card');
 const {
   CODE,
@@ -13,11 +11,12 @@ const checkCard = (card, res, next) => {
   if (card) {
     return res.send({ data: card });
   }
-  const error = new NotFoundError(`Карточка с указанным _id не найдена ${ERROR_NOT_FOUND}`);
+
+  const error = new NotFound(`Карточка с указанным _id не найдена ${ERROR_NOT_FOUND}`);
   return next(error);
 };
 
-const getCards = (req, res, next) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .populate([
       { path: 'owner', model: 'user' },
@@ -29,7 +28,7 @@ const getCards = (req, res, next) => {
     .catch(next);
 };
 
-const createCard = (req, res, next) => {
+module.exports.createCards = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user;
   Card.create({ name, link, owner })
@@ -38,27 +37,29 @@ const createCard = (req, res, next) => {
     .catch(next);
 };
 
-const deleteCard = async (req, res, next) => {
+module.exports.deleteCards = (req, res, next) => {
   const _id = req.params.cardId;
 
-  try {
-    const card = await Card.findOne({ _id }).populate([{ path: 'owner', model: 'user' }]);
-    if (!card) {
-      throw new NotFoundError('Карточка была удалена');
-    }
-    if (card.owner._id.toString() !== req.user._id.toString()) {
-      throw new Forbidden('Вы не можете удалить карточку другого пользователя');
-    }
-
-    const result = await Card.deleteOne({ _id });
-    if (result.deletedCount === 0) {
-      throw new BadRequest('Не удалось удалить карточку');
-    }
-
-    res.send({ data: card });
-  } catch (error) {
-    next(error);
-  }
+  Card.findOne({ _id })
+    .populate([
+      { path: 'owner', model: 'user' },
+    ])
+    .then((card) => {
+      if (!card) {
+        throw new NotFound('Карточка была удалена');
+      }
+      if (card.owner._id.toString() !== req.user._id.toString()) {
+        throw new Forbidden('Вы не можете удалить карточку другого пользователя');
+      }
+      return Card.deleteOne({ _id })
+        .populate([
+          { path: 'owner', model: 'user' },
+        ])
+        .then((cardDeleted) => {
+          res.send({ data: cardDeleted });
+        });
+    })
+    .catch(next);
 };
 
 const updateLikes = (req, res, updateData, next) => {
@@ -67,31 +68,23 @@ const updateLikes = (req, res, updateData, next) => {
       { path: 'owner', model: 'user' },
       { path: 'likes', model: 'user' },
     ])
-    .then((card) => {
-      if (!card) {
-        throw new DocumentNotFoundError('Карточка не найдена');
+    .then((user) => {
+      if (!user) {
+        throw new NotFound('Карточка не найдена');
       }
-      checkCard(card, res);
+      checkCard(user, res);
     })
     .catch(next);
 };
 
-const likeCard = (req, res, next) => {
+module.exports.putLike = (req, res, next) => {
   const owner = req.user._id;
   const newData = { $addToSet: { likes: owner } };
   updateLikes(req, res, newData, next);
 };
 
-const dislikeCard = (req, res, next) => {
+module.exports.removeLike = (req, res, next) => {
   const owner = req.user._id;
   const newData = { $pull: { likes: owner } };
   updateLikes(req, res, newData, next);
-};
-
-module.exports = {
-  getCards,
-  createCard,
-  deleteCard,
-  likeCard,
-  dislikeCard,
 };
