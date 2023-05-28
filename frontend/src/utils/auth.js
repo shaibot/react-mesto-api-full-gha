@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.pr15.nomoredomains.rocks/";
+export const BASE_URL = "https://api.pr15.nomoredomains.rocks";
 
 function checkResponse(response) {
   if (response.ok) {
