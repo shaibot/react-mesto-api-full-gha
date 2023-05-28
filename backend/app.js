@@ -34,7 +34,6 @@ app.use(handlerErrors);
 
 app.use((err, req, res, next) => {
   const { statusCode = ERROR_INTERNAL_SERVER, message } = err;
-
   res
     .status(statusCode)
     .send({
