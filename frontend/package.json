@@ -38,19 +38,19 @@
       "last 1 safari version"
     ]
   },
-  "description": "**Проек включает *4 блока*:** 1. Шапка сайта 2. Профиль 3. Фотографии 4. Подвал сайта",
+  "description": "",
   "main": "index.js",
   "devDependencies": {
     "gh-pages": "^5.0.0"
   },
-  "author": "NadezdaPL",
+  "author": "Valentina",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/NadezdaPL/react-mesto-api-full-gha.git"
+    "url": "git+ssh://git@github.com/shaibot/react-mesto-api-full-gha.git"
   },
   "bugs": {
-    "url": "https://project-mesto.nomoredomains.monster/issues"
+    "url": "https://pr15.nomoredomains.rocks/issues"
   },
-  "homepage": "https://project-mesto.nomoredomains.monster/"
+  "homepage": "https://pr15.nomoredomains.rocks/"
 }
