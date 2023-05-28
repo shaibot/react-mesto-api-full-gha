@@ -1,28 +1,21 @@
 .profile {
-  max-width: 880px;
+  margin: 0 auto 30px;
   display: flex;
-  padding-left: 200px;
-  padding-right: 200px;
+  align-items: center;
+
 }
 
-@media screen and (max-width: 984px) {
+@media screen and (max-width: 940px) {
   .profile {
-    padding-left: 100px;
-    padding-right: 100px;
+    max-width: calc(100vw - 30px * 2);
   }
 }
-    
-@media screen and (max-width: 775px) {
+
+@media screen and (max-width: 719px) {
   .profile {
     flex-direction: column;
-    padding-left: 50px;
-    padding-right: 50px;
+    margin-bottom: 36px;
+    max-width: calc(100vw - 19px * 2);
   }
-}
 
-@media screen and (max-width: 320px) {
-  .profile {
-    padding-left: 19px;
-    padding-right: 19px;
-  }
 }

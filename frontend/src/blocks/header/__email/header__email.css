@@ -1,8 +1,6 @@
 .header__email {
-  margin: 0;
-  padding-right: 24px;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 22px;
-  color: #ffffff;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    margin-right: 24px;
 }

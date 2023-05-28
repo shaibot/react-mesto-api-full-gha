@@ -1,68 +1,63 @@
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
-import useForm from "../hooks/useForm";
 
-
-function AddPlacePopup({ isOpen, onClose, onAddPlace, onChanging }) {
-
- const { values, handleChange, reset } = useForm();
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-    onAddPlace({
-      title: values.title,
-      link: values.link
-    });
-  }
+function AddPlacePopup ({ isOpen, onClose, onAddPlace }) {
+  const [name, setName] = useState('')
+  const [link, setLink] = useState('')
 
   useEffect(() => {
-    reset()
-  }, [isOpen, reset]);
+    if (isOpen) {
+      setName('')
+      setLink('')
+    }
+  }, [isOpen])
 
+  function handleChangeName (e) {
+    setName(e.target.value);
+  }
+
+  function handleChangeLink (e) {
+    setLink(e.target.value);
+  }
+
+  function handleSubmit (e) {
+    e.preventDefault();
+    onAddPlace({ name, link })
+
+  }
   return (
     <PopupWithForm
-      onSubmit={handleSubmit}
       isOpen={isOpen}
       onClose={onClose}
-      name="add"
+      name="card-add"
       title="Новое место"
-      buttonText={onChanging ? "Создание..." : "Создать"}
+      buttonText="Создать"
+      onSubmit={handleSubmit}
     >
-      <fieldset className="popup__fieldset">
-        <input
-          className="popup__input popup__input_type_nickname"
-          onChange={handleChange}
-          name="title"
-          type="text"
-          placeholder="Название"
-          required
-          minLength="2"
-          maxLength="30"
-          id="nickname"
-          value={values.title || ''}
-        />
-        <span
-          id="nickname-error"
-          className="popup__error popup__error_visible"
-        ></span>
-      </fieldset>
-      <fieldset className="popup__fieldset">
-        <input
-          className="popup__input popup__input_type_link"
-          onChange={handleChange}
-          name="link"
-          type="url"
-          placeholder="Ссылка на картинку"
-          required
-          id="link"
-          value={values.link || ''}
-        />
-        <span
-          id="link-error"
-          className="popup__error popup__error_visible"
-        ></span>
-      </fieldset>
+      <input
+        className="name popup__input popup__input_name"
+        id="name-card"
+        name="name"
+        type="text"
+        placeholder="Название"
+        minLength={2}
+        maxLength={30}
+        required=""
+        value={name}
+        onChange={handleChangeName}
+      />
+      <span id="name-card-error" className="popup__error" />
+      <input
+        id="link"
+        type="url"
+        className="popup__occupation link popup__input"
+        name="link"
+        placeholder="Ссылка на картинку"
+        required=""
+        value={link}
+        onChange={handleChangeLink}
+      />
+      <span id="link-error" className="popup__error" />
     </PopupWithForm>
   );
 }
