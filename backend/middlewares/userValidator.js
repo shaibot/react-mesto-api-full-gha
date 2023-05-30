@@ -12,7 +12,7 @@ module.exports.validateSignup = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().required().regex(REGEX_URL),
+    avatar: Joi.string().regex(REGEX_URL),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
